@@ -9,8 +9,8 @@ class Panda:
             raise ValueError
         else:
             self.email = email
-        self.name = name
-        self.gender = gender
+            self.name = name
+            self.gender = gender
 
     def get_name(self):
         return self.name
