@@ -1,3 +1,4 @@
+import json
 from panda import Panda
 
 
@@ -97,3 +98,54 @@ class PandaSocialNetwork:
                     and every_panda != panda:
                 counter += 1
         return counter
+# in our save method we will make a new network with panda objects converted into strings
+# in order to save them in json format. json format supports strings for keys and values
+# in a dictionary, so every panda object key will be a string and friends of our panda
+# will be also represented as strings. Initially we will create the network new_network
+# which will hold all of our panda objects like strings but without their
+# values-friends.
+
+    def save(self, file_name):
+        new_network = {}
+        for panda in self.network:
+            new_network[repr(panda)] = []
+            for friend in self.network[panda]:
+                new_network[repr(panda)].append(repr(friend))
+        json_string = json.dumps(new_network, indent=4)
+
+        with open(file_name, 'w') as outfile:
+            outfile.write(json_string)
+
+    def load(self, file_name):
+        contents = {}
+        with open(file_name, 'r') as infile:
+            contents = json.load(infile)
+
+        for panda in contents:
+            self.add(eval(panda))
+            for friend in contents[panda]:
+                self.network[eval(panda)].append(eval(friend))
+
+aneta = Panda("Aneta", "aneta.nedelcheva@gmail.com", "female")
+pesho = Panda("Pesho", "pesho@gmail.com", "male")
+krisi = Panda("Krisi", "krisi@gmail.com", "female")
+kalin = Panda("Kalin", "kalin@gmail.com", "male")
+kamelia = Panda("Kamelia", "kamelia@gmail.com", "female")
+rado = Panda("Rado", "radorado@gmail.com", "male")
+iva = Panda("Iva", "iva@gmail.com", "female")
+maria = Panda("Maria", "maria@gmail.com", "female")
+nikolay = Panda("Nikolay", "nikolay@gmail.com", "male")
+net = PandaSocialNetwork()
+friends = PandaSocialNetwork()
+friends.make_friends(aneta, iva)
+friends.make_friends(aneta, rado)
+friends.make_friends(aneta, krisi)
+friends.make_friends(aneta, nikolay)
+friends.make_friends(nikolay, kalin)
+friends.make_friends(kalin, krisi)
+friends.make_friends(nikolay, krisi)
+friends.make_friends(pesho, maria)
+
+friends.save("pandaNetwork.json")
+net.load("pandaNetwork.json")
+print (net)
