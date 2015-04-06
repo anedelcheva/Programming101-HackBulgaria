@@ -14,7 +14,6 @@ class PandaTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             Panda("Aneta", "aneta.nedelcheva@gmailcom", "female")
 
-
     def test_get_name(self):
         self.assertEqual(self.my_panda.name, self.my_panda.get_name())
 
@@ -31,12 +30,17 @@ class PandaTest(unittest.TestCase):
         self.assertTrue(self.my_panda.isFemale())
 
     def test_eq(self):
-        self.your_panda = Panda("Aneta", "aneta.nedelcheva@gmail.com", "female")
+        self.your_panda = Panda(
+            "Aneta", "aneta.nedelcheva@gmail.com", "female")
         self.assertTrue(self.my_panda == self.your_panda)
 
     def test_str(self):
         aneta = "Panda Aneta with email aneta.nedelcheva@gmail.com and female gender."
         self.assertEqual(str(self.my_panda), aneta)
+
+    def test_repr(self):
+        self.assertEqual(repr(self.my_panda),
+                         "Panda('Aneta', 'aneta.nedelcheva@gmail.com', 'female')")
 
     def test_hash(self):
         self.assertIsNotNone(hash(self.my_panda))
