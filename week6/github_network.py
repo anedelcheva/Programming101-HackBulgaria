@@ -21,6 +21,38 @@ class GithubNetwork:
             self.network.add_edge(follower['login'], self.me)
         return self.network.graph
 
+    def adding_following_of_my_following(self):
+        https = 'https://api.github.com/users/'
+        for following in self.following:
+            following_request = requests.get(https+following['login']+'/following')
+            user_following = following_request.json()
+            for person in user_following:
+                self.network.add_edge(following['login'], person['login'])
+        return self.network.graph
+
+    def adding_followers_of_my_followers(self):
+        https = 'https://api.github.com/users/'
+        for follower in self.followers:
+            follower_request = requests.get(https+follower['login']+'/followers')
+            user_followers = follower_request.json()
+            for person in user_followers:
+                self.network.add_edge(person['login'], follower['login'])
+        return self.network.graph
+
+    def do_you_follow_indirectly(self, user):
+        for my_following in self.network.graph[self.me]:
+            for user_following in self.network.graph[my_following]:
+                if user in user_following:
+                    return True
+        return False
+
+    def does_he_she_follows_indirectly(self, user):
+        for current_user in self.network.graph:
+            if self.me in self.network.graph[current_user]:
+                    if current_user in self.network.graph[user]:
+                        return True
+        return False
+
     def get_following_list(self):
         user_following = []
         for following in self.following:
@@ -34,7 +66,10 @@ class GithubNetwork:
         return self.me in self.network.graph[user]
 
 aneta = GithubNetwork('https://api.github.com/users/anedelcheva')
-print (aneta.put_connections_to_network())
+'''aneta.put_connections_to_network()
+aneta.adding_followers_of_my_followers()
+aneta.adding_following_of_my_following()'''
+print (json.dumps(aneta.network.graph, sort_keys=True, indent=4))
 
 #print (aneta.me, aneta.followers, aneta.network.graph)
 #print (json.dumps(aneta.user, sort_keys=True, indent=4))
