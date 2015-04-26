@@ -22,13 +22,15 @@ class GithubNetworkTest(unittest.TestCase):
     def test_put_connections_to_network(self):
         self.aneta.put_connections_to_network()
         relations = {
-        'tborisova': [],
+        'tborisova': ['anedelcheva'],
         'anedelcheva': ['RadoRado', 'tborisova', 'mitko0003'],
         'mitko0003': [],
         'RadoRado': []
         }
         self.assertEqual(self.aneta.network.graph, relations)
 
+    def test_does_he_she_follows_you(self):
+        self.assertTrue(self.aneta.does_he_she_follows_you('tborisova'))
 
 if __name__ == '__main__':
     unittest.main()
