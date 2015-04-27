@@ -16,8 +16,12 @@ class FindLinksFromAnHtmlOfAPage:
         #getting all hrefs from a valid html document
         for link in self.html.find_all('a'):
             hrefs_list.append(link.get('href'))
-        #filtering those hrefs which are conform
+        return hrefs_list
+
+        #filtering those hrefs which conform
         #with the pattern link.php?id=64722
+    def filter_hrefs(self):
+        hrefs_list = self.put_all_hrefs_to_list()
         link_php = 'link.php?id='
         hrefs_list_filtered = []
         for href in hrefs_list:
@@ -30,7 +34,7 @@ class FindLinksFromAnHtmlOfAPage:
 print (r)'''
 
 links = FindLinksFromAnHtmlOfAPage('http://register.start.bg/#b_6118')
-print (links.put_all_hrefs_to_list())
+print (links.filter_hrefs())
 
 #print (r.headers['Server'])
 #r2 = requests.get('https://gsm.bg')
