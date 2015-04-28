@@ -48,7 +48,7 @@ class ScanBgWeb:
                 f.write(server + '\n')
 
     def get_statistics(self):
-        with open('servers.txt', 'r') as f:
+        with open('servers_bg.txt', 'r') as f:
             servers = f.read()
             server_list = servers.split('\n')
             for server in server_list:
@@ -81,4 +81,4 @@ plt.title(".bg servers")
 plt.xlabel("Server")
 plt.ylabel("Count")
 
-plt.savefig("histogram2.png")
+plt.savefig("histogram.png")
