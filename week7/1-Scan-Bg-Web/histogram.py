@@ -1,7 +1,7 @@
 class Histogram:
 
     def __init__(self):
-        self.web_servers = {'Apache': 0, 'nginx': 0, 'IIS': 0}
+        self.web_servers = {'Apache': 0, 'nginx': 0, 'IIS': 0, 'lighttpd': 0}
 
     def add(self, web_server):
         if web_server not in self.web_servers:
@@ -20,16 +20,16 @@ class Histogram:
     def get_dict(self):
         return self.web_servers
 
-'''h = Histogram()
-h.add('Apache')
-h.add('Apache')
-h.add('nginx')
-h.add('nginx')
-h.add('IIS')
-h.add('Other')
-print (h.count('Apache'))
-print (h.count('nginx'))
-print (h.count('IIS'))
-print (h.get_dict())
-h.statistics_servers()
-print (h.get_dict())'''
+# h = Histogram()
+# h.add('Apache')
+# h.add('Apache')
+# h.add('nginx')
+# h.add('nginx')
+# h.add('IIS')
+# h.add('Other')
+# print (h.count('Apache'))
+# print (h.count('nginx'))
+# print (h.count('IIS'))
+# print (h.get_dict())
+# h.statistics_servers()
+# print (h.get_dict())
