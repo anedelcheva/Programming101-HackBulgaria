@@ -1,3 +1,5 @@
+API
+=====================================================
 1) API stands for Application Programming Interface
 
 2) Application is a machine that does the work for us-it gives us the
