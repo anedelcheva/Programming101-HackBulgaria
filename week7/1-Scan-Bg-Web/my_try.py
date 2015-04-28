@@ -1,7 +1,7 @@
 import requests
-import json
 from bs4 import BeautifulSoup
 from histogram import Histogram
+import matplotlib.pyplot as plt
 
 
 class ScanBgWeb:
@@ -48,10 +48,9 @@ class ScanBgWeb:
                 f.write(server + '\n')
 
     def get_statistics(self):
-        with open('servers_bg.txt', 'r') as f:
+        with open('servers.txt', 'r') as f:
             servers = f.read()
             server_list = servers.split('\n')
-            #print(server_list)
             for server in server_list:
                 if 'Apache' in server:
                     self.histogram.add('Apache')
@@ -68,4 +67,18 @@ r = requests.head(web.url).headers['server']
 #print (web.get_servers())
 #web.servers_to_file()
 web.get_statistics()
-print (web.histogram.get_dict())
+h = web.histogram.get_dict()
+keys = list(h.keys())
+values = list(h.values())
+print (keys)
+print (values)
+X = list(range(len(keys)))
+print (X)
+plt.bar(X, list(h.values()), align="center")
+plt.xticks(X, keys)
+
+plt.title(".bg servers")
+plt.xlabel("Server")
+plt.ylabel("Count")
+
+plt.savefig("histogram2.png")
