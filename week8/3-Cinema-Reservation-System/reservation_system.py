@@ -21,7 +21,8 @@ SEATS = [
 ]
 
 
-COMMANDS = ['show_movies', 'show_movie_projections', 'make_reservation', 'help']
+COMMANDS = ['show_movies', 'show_movie_projections', 'make_reservation',
+            'help', 'cancel_reservation', 'exit']
 
 
 def show_movies():
@@ -263,6 +264,25 @@ def make_reservation():
             break
 
 
+def names_in_reservations():
+    query = 'SELECT username FROM Reservations'
+    cursor.execute(query)
+    names = cursor.fetchall()
+    names_set = set()
+    for name in names:
+        names_set.add(name['username'])
+    return names_set
+
+
+def cancel_reservation(name):
+    if name not in names_in_reservations():
+        print ("There is no such name in reservations.")
+        return
+    query = 'DELETE FROM Reservations WHERE username = ?'
+    cursor.execute(query, (name,))
+    db.commit()
+
+
 def list_commands():
     print ('Type in one of the following commands:')
     for command in COMMANDS:
@@ -292,6 +312,11 @@ def main():
             make_reservation()
         elif command[0] == 'help':
             list_commands()
+        elif command[0] == 'cancel_reservation':
+            name = input('name> ')
+            cancel_reservation(name)
+        elif command[0] == 'exit':
+            break
 
 
 if __name__ == '__main__':
